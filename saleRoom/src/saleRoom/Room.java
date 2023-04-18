@@ -3,16 +3,25 @@ package saleRoom;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class Room {
 
 	private Vector<ServerThread> serverThreads;
+	
+	private int max;
+	private String maxUser;
+	
 	public Room(int port) {
 		try {
 			System.out.println("Binding to port " + port);
 			ServerSocket ss = new ServerSocket(port);
 			System.out.println("Bound to port " + port);
+			
+			// init current max to 0
+			max = 0;
+			
 			serverThreads = new Vector<ServerThread>();
 			while(true) {
 				Socket s = ss.accept(); // blocking
@@ -34,14 +43,33 @@ public class Room {
 			//System.out.println("here");
 			System.out.println(message);
 			
+			//split will contain the name in the first element
 			String[] split = message.split(": ");
 			//System.out.println("This is the split string: \"" + split[1] + "\"");
+			
 			
 			String bid = "BID";
 			boolean val = split[1].contains(bid);
 			if(val) {
 				System.out.println("Bid recognized, here is the message: \"" + split[1] + "\"");
+				
+				int price = new Scanner(split[1]).useDelimiter("\\D+").nextInt();
+				
+				System.out.println("Here is the bidding price: \"" + price + "\"");
+
+				// update current max user information
+				if(price > max) {
+					max = price;
+					maxUser = split[0];
+				}
 			}
+
+			System.out.println("Current highest bid is $" + max + " held by " + maxUser);
+			
+			// room will close in 10 seconds
+			//if(System.currentTimeMillis() - inittime > 10000) {
+			//	System.out.println("5 seconds has elapsed, bid room is closing");
+			//}			
 			
 			for(ServerThread threads : serverThreads) {
 				if (st != threads) {

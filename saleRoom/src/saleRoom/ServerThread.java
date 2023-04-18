@@ -57,6 +57,7 @@ public class ServerThread extends Thread{
 			while(true) {
 				String line = br.readLine();
 				r.broadcast(line, this);
+				//System.out.println("printing from here");
 			}
 		} catch (IOException ioe) {
 			System.out.println("ioe in ServerThread.run(): " + ioe.getMessage());		
