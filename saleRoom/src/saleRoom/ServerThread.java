@@ -33,9 +33,7 @@ public class ServerThread extends Thread{
 			pw = new PrintWriter(s.getOutputStream());
 			this.r = r;
 			
-			// to do --> complete the implementation for the constructor
 			this.socket = s;
-			// to do --> start socket connection
 			
 			this.start();
 			
@@ -44,7 +42,6 @@ public class ServerThread extends Thread{
 		}
 	}
 
-	// to do --> what method are we missing? Implement the missing method 
 	// sendMessage will write back on the Client side what other client's messages are
 	public void sendMessage(String message) {
 		//pw.println("sending a message");
