@@ -13,6 +13,9 @@ public class Room {
 	private int max;
 	private String maxUser;
 	
+	private long inittime;
+	private boolean closed;
+	
 	public Room(int port) {
 		try {
 			System.out.println("Binding to port " + port);
@@ -21,6 +24,8 @@ public class Room {
 			
 			// init current max to 0
 			max = 0;
+			inittime = System.currentTimeMillis();
+			closed = false;
 			
 			serverThreads = new Vector<ServerThread>();
 			while(true) {
@@ -39,7 +44,7 @@ public class Room {
 	// the print function here will print the chat messages to the Room
 	// for loop will have every other client update with messages on their end
 	public void broadcast(String message, ServerThread st) {
-		if (message != null) {
+		if (message != null && !closed) {
 			//System.out.println("here");
 			System.out.println(message);
 			
@@ -62,14 +67,17 @@ public class Room {
 					max = price;
 					maxUser = split[0];
 				}
-			}
+			}	
 
 			System.out.println("Current highest bid is $" + max + " held by " + maxUser);
 			
+			long temp = System.currentTimeMillis() - inittime;
+			System.out.println("Current elapsed time: " + (temp/1000) % 60 + "." + (temp - (temp/1000) * 1000) + " seconds");
 			// room will close in 10 seconds
-			//if(System.currentTimeMillis() - inittime > 10000) {
-			//	System.out.println("5 seconds has elapsed, bid room is closing");
-			//}			
+			if((temp/1000 % 60) > 30) {
+				System.out.println("30 seconds has elapsed, bid room is closed");
+				closed = true;
+			}			
 			
 			for(ServerThread threads : serverThreads) {
 				if (st != threads) {
