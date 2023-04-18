@@ -45,7 +45,9 @@ public class ServerThread extends Thread{
 	}
 
 	// to do --> what method are we missing? Implement the missing method 
+	// sendMessage will write back on the Client side what other client's messages are
 	public void sendMessage(String message) {
+		//pw.println("sending a message");
 		pw.println(message);
 		pw.flush();
 	}

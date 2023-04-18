@@ -27,10 +27,22 @@ public class Room {
 	
 	// room handles chat inputs from client here
 	// if we can have it recognize commands based off of the String message, we chillin
+	// the print function here will print the chat messages to the Room
+	// for loop will have every other client update with messages on their end
 	public void broadcast(String message, ServerThread st) {
 		if (message != null) {
-			System.out.println("here");
+			//System.out.println("here");
 			System.out.println(message);
+			
+			String[] split = message.split(": ");
+			//System.out.println("This is the split string: \"" + split[1] + "\"");
+			
+			String bid = "BID";
+			boolean val = split[1].contains(bid);
+			if(val) {
+				System.out.println("Bid recognized, here is the message: \"" + split[1] + "\"");
+			}
+			
 			for(ServerThread threads : serverThreads) {
 				if (st != threads) {
 					threads.sendMessage(message);

@@ -37,6 +37,7 @@ public class Client extends Thread {
 	public void run() {
 		try {
 			while(true) {
+				//System.out.println("printing here");
 				String line = br.readLine();
 				System.out.println(line);
 			}
@@ -48,6 +49,7 @@ public class Client extends Thread {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter a username: ");
 		String username = scan.nextLine();
+		
 		Client cc = new Client("localhost", 6789, username);
 	}
 }
